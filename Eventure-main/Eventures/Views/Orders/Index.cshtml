@@ -1,0 +1,33 @@
+﻿@using Eventures.App.Models
+@model IEnumerable<Eventures.App.Models.OrderListingViewModel>
+
+@{
+
+ViewData["Title"] = "Index";
+
+}
+
+<h1>All Orders</h1>
+
+<table class="table">
+
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Customer</th>
+        <th>TicketsCount</th>
+        <th>Ordered On</th>
+    </tr>
+    @{ var orders = Model as OrderListingViewModel[] ?? Model.ToArray(); }
+    @for (int i = 0; i < orders.Length; i++)
+    {
+        var m = orders[i];
+        <tr>
+            <th>@(i + 1)</th>
+            <td>@m. EventName</td>
+            <td>@m. CustomerUsername</td>
+            <td>@m.TicketsCount</td>
+            <td>@m. OrderedOn</td>
+        </tr>
+}
+</table>

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Eventures.App.Models.UserListingViewModel>
+
+@{ 
+    ViewData["Title"] = "All Users";
+}
+
+<h1>All Users</h1>
+
+<from asp-controller="EventuresUser" asp-action="Index" method="get"></from>
+<table class="table">
+
+    <tr>
+        <th>UserName</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>IsAdmin</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>
+                @user.UserName
+            </td>
+            <td>
+                @user.FirstName
+            </td>
+            <td>
+                @user.LastName
+            </td>
+            <td>
+                @user.Email
+            </td>
+            <td>
+                @user.IsAdmin
+            </td>
+        </tr>
+        <td>
+            @if (user.UserName == "admin")
+            {
+                <form asp-action="Promote" asp-controller="EventureUsers" method="post">
+                    <input type="hidden" name="userId" value="@user.Id">
+                </form> }
+            else if (!user.IsAdmin )
+            {
+              <form asp-action="Promote" asp-controller="EventureUsers" method="post">
+              <input type="hidden" name="userId" value="@user.Id">
+              <button type="submit" class="btn btn-success">Promote</button>
+              </form>
+            }
+else
+{
+<form asp-action="Demote" asp-controller="EventureUsers" method="post">
+    <input type="hidden" name="userId" value="@user.Id">
+    <button type="submit" class="btn btn-danger">Demote</button>
+</form>}
+        </td>
+    }
+</table>
+

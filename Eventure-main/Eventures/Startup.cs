@@ -1,6 +1,6 @@
-using EventuresApp.Data;
-using EventuresApp.Domain;
-using EventuresApp.Infrastucture;
+using Eventures.App.Infrastructure;
+using Eventures.Data;
+using Eventures.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventuresApp
+namespace Eventures
 {
     public class Startup
     {
@@ -32,22 +32,26 @@ namespace EventuresApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDatabaseDeveloperPageExceptionFilter();
+            //services.AddRazorPages();
+            //services.AddIdentity<EventuresUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
             services.AddDefaultIdentity<EventuresUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.Configure<IdentityOptions>(option =>
             {
+                option.SignIn.RequireConfirmedEmail = false;
                 option.Password.RequireDigit = false;
                 option.Password.RequiredLength = 5;
                 option.Password.RequireLowercase = false;
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireUppercase = false;
                 option.Password.RequiredUniqueChars = 0;
-
             }
             );
         }
@@ -55,14 +59,11 @@ namespace EventuresApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
             if (env.IsDevelopment())
             {
-                app.PrepareDatabase();
-                if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                    app.UseMigrationsEndPoint();
-                }
+                app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {

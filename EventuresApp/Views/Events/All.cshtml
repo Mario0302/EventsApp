@@ -6,9 +6,9 @@
 
 <h1>All</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -24,8 +24,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Place)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Owner)
+            </th>*@
+            <th>
+                Action
             </th>
             <th></th>
         </tr>
@@ -46,8 +49,14 @@
                 @Html.DisplayFor(modelItem => item.Place)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Owner)
+                @await Html.PartialAsync("_OrderPartial",new OrderCreateBindingModel
+           {
+               EventId=item.Id
+           })
             </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Owner)
+            </td>*@
         </tr>
 }
     </tbody>

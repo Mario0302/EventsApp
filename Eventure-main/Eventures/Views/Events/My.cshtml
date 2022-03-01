@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Eventures.App.Models.OrderListingViewModel>
+@{
+    ViewData["Title"] = "My Events";
+}
+<h1>All My Events</h1>
+<form asp-controller="Events" asp-action="My" method="get">
+    <p>
+        Place: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventPlace)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketsCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderedOn)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventPlace)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketsCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderedOn)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
